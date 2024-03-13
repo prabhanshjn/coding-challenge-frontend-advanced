@@ -1,5 +1,5 @@
 import FormBuilder from "@/components/FormBuilder/FormBuilder";
-import { FormField, FormFieldType } from "@/models/form";
+import { FormField } from "@/models/form";
 import { useEffect, useState } from "react";
 import { SubmitHandler } from "react-hook-form";
 import { Toaster } from "react-hot-toast";
