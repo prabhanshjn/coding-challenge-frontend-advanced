@@ -17,16 +17,16 @@ const FormBuilder = ({
   const {
     handleSubmit,
     register,
-    formState: { errors },
+    formState: { errors, isSubmitting, isSubmitted, isSubmitSuccessful },
     setValue,
     setError,
     getValues,
     watch,
     trigger,
+    reset,
   } = useForm({
     mode: "onChange",
   });
-  console.log(errors);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {/* TODO: Render form fields as defined in `fields` */}

@@ -2,25 +2,28 @@ import FormBuilder from "@/components/FormBuilder/FormBuilder";
 import { FormField, FormFieldType } from "@/models/form";
 import { useEffect, useState } from "react";
 import { SubmitHandler } from "react-hook-form";
+import { Toaster } from "react-hot-toast";
 
 export default function Home() {
   type FormData = {
     [key: string]: string | number | boolean | string[] | undefined;
   };
   const [fields, setFields] = useState<FormField[]>([]);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     fetch("/api/formConfig")
       .then((response) => response.json())
       .then((data) => {
         setFields(data.fields);
+        setIsLoaded(true);
       })
       .catch((error) => {
         console.error("Error fetching form configurations:", error);
       });
   }, []);
 
-  const onSubmit: SubmitHandler<any> = (data) => {
+  const onSubmit: SubmitHandler<FormData> = (data) => {
     console.log("Form data:", data);
     fetch("/api/formSubmission", {
       method: "POST",
@@ -40,6 +43,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
+      <Toaster />
       <div className="max-w-2xl mx-auto md:py-20 py-8">
         <div className="md:shadow md:border rounded-xl md:p-12 p-6">
           <div className="flex flex-row items-center justify-between">
@@ -63,9 +67,15 @@ export default function Home() {
               </svg>
             </div>
           </div>
-          <div className="md:p-6 md:mt-4 mt-12">
-            <FormBuilder fields={fields} onSubmit={onSubmit} />
-          </div>
+          {isLoaded ? (
+            <div className="md:p-6 md:mt-4 mt-12">
+              <FormBuilder fields={fields} onSubmit={onSubmit} />
+            </div>
+          ) : (
+            <div className="min-h-[90vh]">
+              <p className="mt-12">The Form is Loading...</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
