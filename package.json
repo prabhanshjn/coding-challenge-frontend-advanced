@@ -25,6 +25,7 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
+    "daisyui": "^4.7.3",
     "sass": "^1.66.1"
   }
 }
