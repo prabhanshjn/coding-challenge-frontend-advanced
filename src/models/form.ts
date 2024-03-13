@@ -58,5 +58,5 @@ export interface FormField {
   maxLength?: number;
   min?: number;
   minLength?: number;
-  pattern?: string;
+  pattern?: RegExp;
 }

@@ -17,8 +17,9 @@ const FormBuilder = ({
   const {
     handleSubmit,
     register,
-    formState,
+    formState: { errors },
     setValue,
+    setError,
     getValues,
     watch,
     trigger,
@@ -71,12 +72,27 @@ const FormBuilder = ({
               <input
                 type={field.type}
                 {...register(field.key, {
-                  required: field.required,
+                  required: field.required
+                    ? field.errorMessages?.required
+                    : undefined,
+                  pattern: field.pattern,
+                  max: field.max,
+                  maxLength: field.maxLength,
+                  min: field.min,
+                  minLength: field.minLength,
                 })}
                 className="input input-bordered w-full max-w-xs"
                 placeholder={field.placeholder}
                 disabled={field.disabled}
+                readOnly={field.readonly}
+                size={field.size}
+                step={field.step}
               />
+            )}
+            {errors[field.key] && (
+              <p className="text-sm font-medium text-red-300 my-1">
+                {errors[field.key]?.message?.toString()}
+              </p>
             )}
           </div>
         );
