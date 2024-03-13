@@ -126,6 +126,16 @@ export default function Home() {
       },
     },
     {
+      type: FormFieldType.TEXTAREA,
+      label: "Textarea Field",
+      key: "textarea",
+      placeholder: "Enter text",
+      required: true,
+      errorMessages: {
+        required: "Text is required",
+      },
+    },
+    {
       type: FormFieldType.CHECKBOX,
       label: "Checkbox Field",
       key: "checkbox",
@@ -146,23 +156,36 @@ export default function Home() {
         required: "Selection is required",
       },
     },
-    {
-      type: FormFieldType.TEXTAREA,
-      label: "Textarea Field",
-      key: "textarea",
-      placeholder: "Enter text",
-      required: true,
-      errorMessages: {
-        required: "Text is required",
-      },
-    },
   ];
 
   return (
     <div className="min-h-screen">
-      <div className="max-w-5xl mx-auto pt-20">
-        <div className="shadow border rounded-xl p-6">
-          <FormBuilder fields={fields} onSubmit={onSubmit} />
+      <div className="max-w-2xl mx-auto py-20">
+        <div className="shadow border rounded-xl p-12">
+          <div className="flex flex-row items-center justify-between">
+            <div>
+              <h1 className="text-xl font-bold">Sample Form</h1>
+              <p className="text-sm font-light my-1">
+                This is a form built on React Hook Forms and Tailwind CSS
+              </p>
+            </div>
+            <div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="32"
+                width="24"
+                viewBox="0 0 384 512"
+              >
+                <path
+                  fill="#74C0FC"
+                  d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div className="p-6">
+            <FormBuilder fields={fields} onSubmit={onSubmit} />
+          </div>
         </div>
       </div>
     </div>
