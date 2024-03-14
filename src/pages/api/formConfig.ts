@@ -154,7 +154,6 @@ const formFields: FormField[] = [
     type: FormFieldType.RADIO,
     label: "Radiobutton Options",
     key: "radio",
-    value: "optionA",
     options: [
       { label: "Option A", value: "optionA" },
       { label: "Option B", value: "optionB" },
