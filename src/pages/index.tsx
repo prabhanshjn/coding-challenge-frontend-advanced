@@ -1,17 +1,15 @@
 import FormBuilder from "@/components/FormBuilder/FormBuilder";
-import { FormField } from "@/models/form";
+import { FormField, FormSubmitData } from "@/models/form";
 import { useEffect, useState } from "react";
 import { SubmitHandler } from "react-hook-form";
-import { Toaster } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 
 export default function Home() {
-  type FormData = {
-    [key: string]: string | number | boolean | string[] | undefined;
-  };
   const [fields, setFields] = useState<FormField[]>([]);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   useEffect(() => {
+    // Fetch form configurations from the server
     fetch("/api/formConfig")
       .then((response) => response.json())
       .then((data) => {
@@ -23,22 +21,36 @@ export default function Home() {
       });
   }, []);
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log("Form data:", data);
-    fetch("/api/formSubmission", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((responseData) => {
-        console.log("Form submission response:", responseData);
+  // Function to handle form submission
+  const onSubmit: SubmitHandler<FormSubmitData> = (
+    data
+  ): Promise<{ success: boolean }> => {
+    return new Promise(async (resolve) => {
+      await fetch("/api/formSubmission", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       })
-      .catch((error) => {
-        console.error("Error submitting form:", error);
-      });
+        .then((response) => response.json())
+        .then((responseData) => {
+          // If form submission is successful, show success message
+          toast.success("Form Submitted Successfully ");
+          console.log("Form submission response:", responseData);
+          resolve({
+            success: true,
+          });
+        })
+        .catch((error) => {
+          // If form submission fails, show error message
+          toast.error("Error submitting form");
+          console.error("Error submitting form:", error);
+          resolve({
+            success: false,
+          });
+        });
+    });
   };
 
   return (
@@ -68,10 +80,12 @@ export default function Home() {
             </div>
           </div>
           {isLoaded ? (
+            // Render the form if configurations are loaded
             <div className="md:p-6 md:mt-4 mt-12">
               <FormBuilder fields={fields} onSubmit={onSubmit} />
             </div>
           ) : (
+            // Show loading message while configurations are being fetched
             <div className="min-h-[90vh]">
               <p className="mt-12">The Form is Loading...</p>
             </div>

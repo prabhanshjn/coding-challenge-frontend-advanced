@@ -58,5 +58,9 @@ export interface FormField {
   maxLength?: number;
   min?: number;
   minLength?: number;
-  pattern?: RegExp;
+  pattern?: string;
 }
+
+export type FormSubmitData = {
+  [key: string]: string | number | boolean | string[] | undefined;
+};
